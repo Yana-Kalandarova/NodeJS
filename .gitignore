@@ -1,3 +1,6 @@
+#Exclude idea project configuration files
+.idea
+
 # Logs
 logs
 *.log
