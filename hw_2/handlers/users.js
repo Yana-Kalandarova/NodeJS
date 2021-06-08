@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid';
+import { getAutoSuggestUsers } from '../utils/users';
 
 const users = {};
 
@@ -21,13 +22,23 @@ export const getUserById = (req, res) => {
 };
 
 export const getUsers = (req, res) => {
+    const {
+        query: { login, limit }
+    } = req;
     const activeUsers = Object.values(users).filter((user) => !user.isDeleted);
-    const resultUsers = activeUsers.reduce((acc, curr) => {
-        acc[curr.id] = curr;
-        return acc;
-    }, {});
+    const resultsUsersList = getAutoSuggestUsers(activeUsers, limit, login);
 
-    res.json(resultUsers);
+    if (resultsUsersList.length) {
+        const resultUsers = resultsUsersList.reduce((acc, curr) => {
+            acc[curr.id] = curr;
+
+            return acc;
+        }, {});
+
+        res.json(resultUsers);
+    } else {
+        res.sendStatus(404);
+    }
 };
 
 export const addUser = (req, res) => {
