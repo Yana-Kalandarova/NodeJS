@@ -1,5 +1,7 @@
 import { v4 as uuid } from 'uuid';
+import { userSchema, errorResponse } from '../validation';
 import { getAutoSuggestUsers } from '../utils/users';
+import { VALIDATION_OPTIONS } from '../constants/validation';
 
 const users = {};
 
@@ -43,33 +45,45 @@ export const getUsers = (req, res) => {
 
 export const addUser = (req, res) => {
     const userInfo = req.body;
-    const id = uuid();
-    const user = {
-        ...userInfo,
-        id,
-        isDeleted: false
-    };
+    const { error } = userSchema.validate(userInfo, VALIDATION_OPTIONS);
 
-    users[id] = user;
+    if (error) {
+        res.status(400).json(errorResponse(error.details));
+    } else {
+        const id = uuid();
+        const user = {
+            ...userInfo,
+            id,
+            isDeleted: false
+        };
 
-    res.status(201).json(user);
+        users[id] = user;
+
+        res.status(201).json(user);
+    }
 };
 
 export const updateUserById = (req, res) => {
     const updatedUserInfo = req.body;
-    const {
-        user,
-        params: { id }
-    } = req;
-    const updatedUser = {
-        ...user,
-        ...updatedUserInfo,
-        id: user.id
-    };
+    const { error } = userSchema.validate(updatedUserInfo, VALIDATION_OPTIONS);
 
-    users[id] = updatedUser;
+    if (error) {
+        res.status(400).json(errorResponse(error.details));
+    } else {
+        const {
+            user,
+            params: { id }
+        } = req;
+        const updatedUser = {
+            ...user,
+            ...updatedUserInfo,
+            id: user.id
+        };
 
-    res.status(200).json(updatedUser);
+        users[id] = updatedUser;
+
+        res.status(200).json(updatedUser);
+    }
 };
 
 export const deleteUserById = (req, res) => {
