@@ -1,3 +1,7 @@
+import { v4 as uuid } from 'uuid';
+import faker from 'faker';
+import { USER_AGE_MAX, USER_AGE_MIN } from '../constants/validation';
+
 export const getAutoSuggestUsers = (usersList, limitString, loginSubstr) => {
     const numberReqEx = /^\d+$/;
     const limit = numberReqEx.test(limitString) ? Number(limitString) : null;
@@ -19,3 +23,14 @@ export const getAutoSuggestUsers = (usersList, limitString, loginSubstr) => {
 };
 
 export const sortUsers = (user1, user2) => (user1.login > user2.login ? 1 : -1);
+
+export const generateUsers = (count) =>
+    Array.from(Array(count)).map(() => ({
+        userId: uuid(),
+        login: faker.name.firstName(),
+        password: faker.lorem.word(10),
+        age: faker.datatype.number({
+            min: USER_AGE_MIN,
+            max: USER_AGE_MAX
+        })
+    }));

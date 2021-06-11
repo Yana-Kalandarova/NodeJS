@@ -1,9 +1,10 @@
 import Joi from 'joi';
+import { USER_AGE_MIN, USER_AGE_MAX } from '../constants/validation';
 
 const passwordRegEx = /^(?=.*[a-zA-Z])(?=.*[0-9])/;
 
 export const userSchema = Joi.object({
-    age: Joi.number().integer().min(4).max(130).required(),
+    age: Joi.number().integer().min(USER_AGE_MIN).max(USER_AGE_MAX).required(),
 
     login: Joi.string().required(),
 
