@@ -1,0 +1,39 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "run": "nodemon --exec babel-node ./app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yana-Kalandarova/NodeJS.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Yana-Kalandarova/NodeJS/issues"
+  },
+  "homepage": "https://github.com/Yana-Kalandarova/NodeJS#readme",
+  "devDependencies": {
+    "@babel/core": "^7.14.3",
+    "@babel/eslint-parser": "^7.14.4",
+    "@babel/node": "^7.14.2",
+    "@babel/preset-env": "^7.14.4",
+    "eslint": "^7.27.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-prettier": "^3.4.0",
+    "nodemon": "^2.0.7",
+    "prettier": "^2.3.0"
+  },
+  "dependencies": {
+    "babel-eslint": "^10.1.0",
+    "express": "^4.17.1",
+    "joi": "^17.4.0",
+    "sequelize": "^6.6.2",
+    "uuid": "^8.3.2"
+  }
+}
