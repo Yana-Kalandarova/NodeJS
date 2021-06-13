@@ -12,3 +12,5 @@ export const generateUsers = (count) =>
             max: USER_AGE_MAX
         })
     }));
+
+export const getUserIdFromRequest = ({ params: { id } }) => id;

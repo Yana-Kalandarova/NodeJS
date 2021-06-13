@@ -1,21 +1,23 @@
-import { Op } from 'sequelize';
 import { userSchema, errorResponse } from '../validation';
 import { VALIDATION_OPTIONS } from '../constants/validation';
 import { UserModel } from '../models/userModel';
+import { UserManagementService } from '../services';
+import { getUserIdFromRequest } from '../utils/users';
+
+const userManagementService = new UserManagementService(UserModel);
 
 export const getUserById = async (req, res) => {
-    const {
-        params: { id }
-    } = req;
-    const user = await UserModel.findOne({
-        where: {
-            id
-        }
-    });
+    const id = getUserIdFromRequest(req);
 
-    if (user) {
-        res.json(user);
-    } else {
+    try {
+        const user = await userManagementService.getUserById(id);
+
+        if (user) {
+            res.json(user);
+        } else {
+            throw new Error();
+        }
+    } catch (error) {
         res.sendStatus(404);
     }
 };
@@ -25,75 +27,83 @@ export const getUsers = async (req, res) => {
         query: { login, limit }
     } = req;
 
-    const resultsUsersList = await UserModel.findAll({
-        where: {
-            ...(login && { login: { [Op.substring]: login } })
-        },
-        order: [['login', 'ASC']],
-        limit,
-        fields: ['id', 'login', 'password', 'age']
-    });
+    try {
+        const resultsUsersList = await userManagementService.findUsersByQuery(
+            login,
+            limit
+        );
 
-    if (resultsUsersList.length) {
-        res.json(resultsUsersList);
-    } else {
+        if (resultsUsersList.length) {
+            res.json(resultsUsersList);
+        } else {
+            throw new Error();
+        }
+    } catch (error) {
         res.sendStatus(404);
     }
 };
 
 export const addUser = async (req, res) => {
     const userInfo = req.body;
-    const { error } = userSchema.validate(userInfo, VALIDATION_OPTIONS);
+    const { validationError } = userSchema.validate(
+        userInfo,
+        VALIDATION_OPTIONS
+    );
 
-    if (error) {
-        res.status(400).json(errorResponse(error.details));
+    if (validationError) {
+        res.status(400).json(errorResponse(validationError.details));
     } else {
-        const { dataValues: user } = await UserModel.create(
-            { ...userInfo },
-            {
-                fields: ['id', 'login', 'password', 'age']
-            }
-        );
+        try {
+            const user = await userManagementService.createUser(userInfo);
 
-        res.status(201).json(user);
+            res.status(201).json(user);
+        } catch (error) {
+            res.sendStatus(500);
+        }
     }
 };
 
 export const updateUserById = async (req, res) => {
-    const updatedUserInfo = req.body;
-    const { error } = userSchema.validate(updatedUserInfo, VALIDATION_OPTIONS);
+    const userInfo = req.body;
+    const { validationError } = userSchema.validate(
+        userInfo,
+        VALIDATION_OPTIONS
+    );
 
-    if (error) {
-        res.status(400).json(errorResponse(error.details));
+    if (validationError) {
+        res.status(400).json(errorResponse(validationError.details));
     } else {
-        const {
-            params: { id }
-        } = req;
+        const id = getUserIdFromRequest(req);
 
-        const { dataValues: user } = await UserModel.update(
-            { ...updatedUserInfo },
-            {
-                where: {
-                    id
-                },
-                fields: ['id', 'login', 'password', 'age']
+        try {
+            const [isUpdated] = await userManagementService.updateUserById(
+                id,
+                userInfo
+            );
+
+            if (isUpdated) {
+                res.sendStatus(204);
+            } else {
+                throw new Error();
             }
-        );
-
-        res.status(200).json(user);
+        } catch (error) {
+            res.sendStatus(404);
+        }
     }
 };
 
 export const deleteUserById = async (req, res) => {
-    const {
-        params: { id }
-    } = req;
+    const id = getUserIdFromRequest(req);
 
-    await UserModel.destroy({
-        where: {
-            id
+    try {
+        const isDeleted = await userManagementService.deleteUserById(id);
+
+        if (isDeleted) {
+            res.sendStatus(200);
+        } else {
+            throw new Error();
         }
-    });
-
-    res.sendStatus(200);
+    } catch (error) {
+        res.sendStatus(404);
+    }
 };
