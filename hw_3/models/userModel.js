@@ -1,12 +1,14 @@
-import { DataTypes } from 'sequelize';
+import { DataTypes, Sequelize } from 'sequelize';
 import { sequelize } from '../data-access';
 
 export const UserModel = sequelize.define(
     'user',
     {
-        userId: {
+        id: {
             primaryKey: true,
-            type: DataTypes.STRING
+            type: DataTypes.UUID,
+            defaultValue: Sequelize.UUIDV4,
+            allowNull: false
         },
         login: {
             type: DataTypes.STRING,
@@ -17,7 +19,7 @@ export const UserModel = sequelize.define(
             allowNull: false
         },
         age: {
-            type: DataTypes.DECIMAL,
+            type: DataTypes.INTEGER,
             allowNull: false
         }
     },
@@ -26,3 +28,5 @@ export const UserModel = sequelize.define(
         paranoid: true
     }
 );
+
+UserModel.sync();
