@@ -1,17 +1,15 @@
 import express from 'express';
-import * as usersHandlers from '../handlers/users';
+import * as usersControllers from '../controllers/users';
 
 const usersRouter = express.Router();
 
-usersRouter.param('id', usersHandlers.findUserById);
-
 usersRouter.route('/')
-    .get(usersHandlers.getUsers)
-    .post(usersHandlers.addUser);
+    .get(usersControllers.getUsers)
+    .post(usersControllers.addUser);
 
 usersRouter.route('/:id')
-    .get(usersHandlers.getUserById)
-    .put(usersHandlers.updateUserById)
-    .delete(usersHandlers.deleteUserById);
+    .get(usersControllers.getUserById)
+    .put(usersControllers.updateUserById)
+    .delete(usersControllers.deleteUserById);
 
 export default usersRouter;
