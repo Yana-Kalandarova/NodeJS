@@ -1,5 +1,3 @@
-import { userSchema, errorResponse } from '../validation';
-import { VALIDATION_OPTIONS } from '../constants/validation';
 import { UserModel } from '../models/userModel';
 import { UserManagementService } from '../services';
 import { getUserIdFromRequest } from '../utils/users';
@@ -45,50 +43,33 @@ export const getUsers = async (req, res) => {
 
 export const addUser = async (req, res) => {
     const userInfo = req.body;
-    const { validationError } = userSchema.validate(
-        userInfo,
-        VALIDATION_OPTIONS
-    );
 
-    if (validationError) {
-        res.status(400).json(errorResponse(validationError.details));
-    } else {
-        try {
-            const user = await userManagementService.createUser(userInfo);
+    try {
+        const user = await userManagementService.createUser(userInfo);
 
-            res.status(201).json(user);
-        } catch (error) {
-            res.sendStatus(500);
-        }
+        res.status(201).json(user);
+    } catch (error) {
+        res.sendStatus(500);
     }
 };
 
 export const updateUserById = async (req, res) => {
     const userInfo = req.body;
-    const { validationError } = userSchema.validate(
-        userInfo,
-        VALIDATION_OPTIONS
-    );
+    const id = getUserIdFromRequest(req);
 
-    if (validationError) {
-        res.status(400).json(errorResponse(validationError.details));
-    } else {
-        const id = getUserIdFromRequest(req);
+    try {
+        const [isUpdated] = await userManagementService.updateUserById(
+            id,
+            userInfo
+        );
 
-        try {
-            const [isUpdated] = await userManagementService.updateUserById(
-                id,
-                userInfo
-            );
-
-            if (isUpdated) {
-                res.sendStatus(204);
-            } else {
-                throw new Error();
-            }
-        } catch (error) {
-            res.sendStatus(404);
+        if (isUpdated) {
+            res.sendStatus(204);
+        } else {
+            throw new Error();
         }
+    } catch (error) {
+        res.sendStatus(404);
     }
 };
 
