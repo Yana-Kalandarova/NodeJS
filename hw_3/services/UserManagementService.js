@@ -1,42 +1,17 @@
-import { Op } from 'sequelize';
-
 export class UserManagementService {
-    constructor(model) {
-        this.model = model;
+    constructor(daoModel) {
+        this.daoModel = daoModel;
     }
 
-    getUserById = (id) =>
-        this.model.findOne({
-            where: {
-                id
-            }
-        });
+    getUserById = (id) => this.daoModel.findUserById(id);
 
-    createUser = (userInfo) => this.model.create({ ...userInfo });
+    createUser = (userInfo) => this.daoModel.createUser(userInfo);
 
     updateUserById = (id, userInfo) =>
-        this.model.update(
-            { ...userInfo },
-            {
-                where: {
-                    id
-                }
-            }
-        );
+        this.daoModel.updateUserById(id, userInfo);
 
-    deleteUserById = (id) =>
-        this.model.destroy({
-            where: {
-                id
-            }
-        });
+    deleteUserById = (id) => this.daoModel.deleteUserById(id);
 
     findUsersByQuery = (login, limit) =>
-        this.model.findAll({
-            where: {
-                ...(login && { login: { [Op.substring]: login } })
-            },
-            order: [['login', 'ASC']],
-            limit
-        });
+        this.daoModel.findUsersByQuery(login, limit);
 }

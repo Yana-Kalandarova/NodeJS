@@ -1,8 +1,10 @@
 import { UserModel } from '../models/userModel';
 import { UserManagementService } from '../services';
 import { getUserIdFromRequest } from '../utils/users';
+import { UserDAO } from '../data-access';
 
-const userManagementService = new UserManagementService(UserModel);
+const userDAO = new UserDAO(UserModel);
+const userManagementService = new UserManagementService(userDAO);
 
 export const getUserById = async (req, res) => {
     const id = getUserIdFromRequest(req);
