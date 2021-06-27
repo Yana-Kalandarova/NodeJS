@@ -1,4 +1,4 @@
-import { UserModel } from '../models/userModel';
+import { UserModel } from '../models';
 import { UserManagementService } from '../services';
 import { getIdFromRequest as getUserIdFromRequest } from '../utils/common';
 import { UserDAO } from '../data-access';

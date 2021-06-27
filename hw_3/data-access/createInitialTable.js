@@ -1,6 +1,6 @@
-import { UserModel } from '../models/userModel';
+import { UserModel } from '../models';
 import { generateUsers } from '../utils/users';
-import { connectSequelize, sequelize } from './properties';
+import { connectSequelize, sequelize } from './db';
 
 const createInitialTable = async (count) => {
     await connectSequelize();

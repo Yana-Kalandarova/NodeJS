@@ -1,4 +1,4 @@
-import { GroupModel } from '../models/groupModel';
+import { GroupModel } from '../models';
 import { GroupManagementService } from '../services';
 import { getIdFromRequest as getGroupIdFromRequest } from '../utils/common';
 import { GroupDAO } from '../data-access';

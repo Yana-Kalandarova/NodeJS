@@ -1,6 +1,7 @@
 import { DataTypes, Sequelize } from 'sequelize';
 import { sequelize } from '../data-access';
 import { GROUP_PERMISSION_LIST } from '../constants/validation';
+import { UserModel } from './userModel';
 
 export const GroupModel = sequelize.define(
     'group',
@@ -24,5 +25,12 @@ export const GroupModel = sequelize.define(
         underscored: true
     }
 );
+
+GroupModel.associate = function () {
+    this.belongsToMany(UserModel, {
+        through: 'UserGroup',
+        as: 'users'
+    });
+};
 
 GroupModel.sync();
