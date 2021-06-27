@@ -12,6 +12,8 @@ export class GroupManagementService {
 
     deleteGroupById = (id) => this.daoModel.deleteGroupById(id);
 
-    getAllGroups = () =>
-        this.daoModel.findAllGroups();
+    getAllGroups = () => this.daoModel.findAllGroups();
+
+    addUsersToGroup = (groupId, userIds) =>
+        this.daoModel.addUsersToGroup(groupId, userIds);
 }

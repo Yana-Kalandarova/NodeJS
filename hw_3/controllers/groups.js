@@ -83,3 +83,24 @@ export const deleteGroupById = async (req, res) => {
         res.sendStatus(404);
     }
 };
+
+export const addUsersToGroup = async (req, res) => {
+    const {
+        body: { groupId, userIds }
+    } = req;
+
+    try {
+        const result = await groupManagementService.addUsersToGroup(
+            groupId,
+            userIds
+        );
+
+        if (result) {
+            res.sendStatus(200);
+        } else {
+            throw new Error();
+        }
+    } catch (error) {
+        res.sendStatus(404);
+    }
+};

@@ -13,4 +13,7 @@ groupsRouter.route('/:id')
     .put(validateGroupInfo, groupsControllers.updateGroupById)
     .delete(groupsControllers.deleteGroupById);
 
+groupsRouter.route('/add-users')
+    .post(groupsControllers.addUsersToGroup);
+
 export default groupsRouter;

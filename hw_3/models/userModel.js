@@ -33,8 +33,7 @@ export const UserModel = sequelize.define(
 UserModel.associate = function () {
     this.belongsToMany(GroupModel, {
         through: 'UserGroup',
-        as: 'groups'
+        as: 'groups',
+        foreignKey: 'user_id'
     });
 };
-
-UserModel.sync();
