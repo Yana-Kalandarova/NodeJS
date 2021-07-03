@@ -1,6 +1,6 @@
 import express from 'express';
 import { usersRouter, groupsRouter } from './routes';
-import { requestLogger } from './middleware';
+import { requestLogger, errorHandler } from './middleware';
 import { logger } from './utils/logger';
 
 const app = express();
@@ -12,10 +12,14 @@ app.use(requestLogger);
 app.use('/users', usersRouter);
 app.use('/groups', groupsRouter);
 
+app.use(errorHandler);
+
 process
-    .on('uncaughtException', (err) => logger.error(`uncaughtException: ${err}`))
-    .on('unhandledRejection', (err) =>
-        logger.error(`unhandledRejection: ${err}`)
+    .on('uncaughtException', (error) =>
+        logger.error(`uncaughtException: ${error}`)
+    )
+    .on('unhandledRejection', (error) =>
+        logger.error(`unhandledRejection: ${error}`)
     );
 
 app.listen(port, () => console.log(`App listening on port ${port}!`));

@@ -5,7 +5,6 @@ export const errorResponse = (schemaErrors) => {
     });
 
     return {
-        status: 'failed',
-        errors
+        message: JSON.stringify(errors)
     };
 };
