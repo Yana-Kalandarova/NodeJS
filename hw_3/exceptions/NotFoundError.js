@@ -1,4 +1,4 @@
-export class ValidationError extends Error {
+export class NotFoundError extends Error {
     constructor(message) {
         super();
         this.message = message;

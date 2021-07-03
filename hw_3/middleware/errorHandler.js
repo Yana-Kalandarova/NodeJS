@@ -1,13 +1,30 @@
-import { ValidationError } from '../exceptions';
+import { ValidationError, NotFoundError } from '../exceptions';
+import { logger } from '../utils/logger';
 
 export const errorHandler = (error, req, res, next) => {
-    let status = 500;
-    let message = 'Internal Server Error';
+    let status;
+    let title;
+    const { message } = error;
 
-    if (error instanceof ValidationError) {
-        status = 400;
-        message = error.message;
+    switch (error.constructor) {
+        case ValidationError:
+            status = 400;
+            title = 'Bad Request';
+            break;
+        case NotFoundError:
+            status = 404;
+            title = 'Not Found';
+            break;
+        default:
+            status = 500;
+            title = 'Internal Server Error';
     }
 
-    res.status(status).send(message);
+    logger.error(
+        `${title}:
+        ${req.method} ${req.url} with params ${JSON.stringify(req.body)}.
+        Error: ${JSON.stringify(error)}`
+    );
+
+    res.status(status).send({ title, message });
 };

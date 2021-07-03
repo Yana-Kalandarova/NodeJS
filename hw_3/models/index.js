@@ -1,4 +1,5 @@
 import { sequelize } from '../data-access';
+import { logger } from '../utils/logger';
 import { UserModel } from './userModel';
 import { GroupModel } from './groupModel';
 
@@ -7,6 +8,6 @@ GroupModel.associate();
 
 sequelize
     .sync()
-    .then(() => console.log('All models were successfully synchronized'));
+    .then(() => logger.info('All models were successfully synchronized'));
 
 export { UserModel, GroupModel };

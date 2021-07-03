@@ -2,11 +2,12 @@ import { UserModel } from '../models';
 import { UserManagementService } from '../services';
 import { getIdFromRequest as getUserIdFromRequest } from '../utils/common';
 import { UserDAO } from '../data-access';
+import { NotFoundError } from '../exceptions';
 
 const userDAO = new UserDAO(UserModel);
 const userManagementService = new UserManagementService(userDAO);
 
-export const getUserById = async (req, res) => {
+export const getUserById = async (req, res, next) => {
     const id = getUserIdFromRequest(req);
 
     try {
@@ -15,14 +16,14 @@ export const getUserById = async (req, res) => {
         if (user) {
             res.json(user);
         } else {
-            throw new Error();
+            throw new NotFoundError('could not get user by specified id');
         }
     } catch (error) {
-        res.sendStatus(404);
+        next(error);
     }
 };
 
-export const getUsers = async (req, res) => {
+export const getUsers = async (req, res, next) => {
     const {
         query: { login, limit }
     } = req;
@@ -36,14 +37,14 @@ export const getUsers = async (req, res) => {
         if (resultsUsersList.length) {
             res.json(resultsUsersList);
         } else {
-            throw new Error();
+            throw new NotFoundError('could not get users by specified params');
         }
     } catch (error) {
-        res.sendStatus(404);
+        next(error);
     }
 };
 
-export const addUser = async (req, res) => {
+export const addUser = async (req, res, next) => {
     const userInfo = req.body;
 
     try {
@@ -51,11 +52,11 @@ export const addUser = async (req, res) => {
 
         res.status(201).json(user);
     } catch (error) {
-        res.sendStatus(500);
+        next(error);
     }
 };
 
-export const updateUserById = async (req, res) => {
+export const updateUserById = async (req, res, next) => {
     const userInfo = req.body;
     const id = getUserIdFromRequest(req);
 
@@ -68,14 +69,14 @@ export const updateUserById = async (req, res) => {
         if (isUpdated) {
             res.sendStatus(204);
         } else {
-            throw new Error();
+            throw new NotFoundError('could not update user by specified id');
         }
     } catch (error) {
-        res.sendStatus(404);
+        next(error);
     }
 };
 
-export const deleteUserById = async (req, res) => {
+export const deleteUserById = async (req, res, next) => {
     const id = getUserIdFromRequest(req);
 
     try {
@@ -84,9 +85,9 @@ export const deleteUserById = async (req, res) => {
         if (isDeleted) {
             res.sendStatus(200);
         } else {
-            throw new Error();
+            throw new NotFoundError('could not delete user by specified id');
         }
     } catch (error) {
-        res.sendStatus(404);
+        next(error);
     }
 };
