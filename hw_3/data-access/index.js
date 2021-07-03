@@ -1,3 +1,4 @@
 export * from './createInitialTable';
-export * from './properties';
+export * from './db';
 export * from './users';
+export * from './groups';

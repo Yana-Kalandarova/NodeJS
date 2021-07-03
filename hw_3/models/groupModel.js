@@ -1,9 +1,10 @@
 import { DataTypes, Sequelize } from 'sequelize';
 import { sequelize } from '../data-access';
-import { GroupModel } from './groupModel';
+import { GROUP_PERMISSION_LIST } from '../constants/validation';
+import { UserModel } from './userModel';
 
-export const UserModel = sequelize.define(
-    'user',
+export const GroupModel = sequelize.define(
+    'group',
     {
         id: {
             primaryKey: true,
@@ -11,29 +12,24 @@ export const UserModel = sequelize.define(
             defaultValue: Sequelize.UUIDV4,
             allowNull: false
         },
-        login: {
+        name: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        password: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        age: {
-            type: DataTypes.INTEGER,
+        permission: {
+            type: DataTypes.ARRAY(DataTypes.ENUM(...GROUP_PERMISSION_LIST)),
             allowNull: false
         }
     },
     {
-        underscored: true,
-        paranoid: true
+        underscored: true
     }
 );
 
-UserModel.associate = function () {
-    this.belongsToMany(GroupModel, {
+GroupModel.associate = function () {
+    this.belongsToMany(UserModel, {
         through: 'UserGroup',
-        as: 'groups',
-        foreignKey: 'user_id'
+        as: 'users',
+        foreignKey: 'group_id'
     });
 };
