@@ -1,5 +1,6 @@
 import { UserModel } from '../models';
 import { generateUsers } from '../utils/users';
+import { logger } from '../utils/logger';
 import { connectSequelize, sequelize } from './db';
 
 const createInitialTable = async (count) => {
@@ -11,7 +12,7 @@ const createInitialTable = async (count) => {
 
         await UserModel.bulkCreate(initialUsers);
     } catch (error) {
-        console.log(error);
+        logger.error(error);
     }
 };
 

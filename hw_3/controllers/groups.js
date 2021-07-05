@@ -2,11 +2,12 @@ import { GroupModel } from '../models';
 import { GroupManagementService } from '../services';
 import { getIdFromRequest as getGroupIdFromRequest } from '../utils/common';
 import { GroupDAO } from '../data-access';
+import { NotFoundError } from '../exceptions';
 
 const groupDAO = new GroupDAO(GroupModel);
 const groupManagementService = new GroupManagementService(groupDAO);
 
-export const getGroupById = async (req, res) => {
+export const getGroupById = async (req, res, next) => {
     const id = getGroupIdFromRequest(req);
 
     try {
@@ -15,10 +16,10 @@ export const getGroupById = async (req, res) => {
         if (group) {
             res.json(group);
         } else {
-            throw new Error();
+            throw new NotFoundError('could not get group by specified id');
         }
     } catch (error) {
-        res.sendStatus(404);
+        next(error);
     }
 };
 
@@ -29,14 +30,14 @@ export const getGroups = async (req, res) => {
         if (groupsList.length) {
             res.json(groupsList);
         } else {
-            throw new Error();
+            throw new NotFoundError('could not get groups by specified params');
         }
     } catch (error) {
-        res.sendStatus(404);
+        next(error);
     }
 };
 
-export const addGroup = async (req, res) => {
+export const addGroup = async (req, res, next) => {
     const groupInfo = req.body;
 
     try {
@@ -44,11 +45,11 @@ export const addGroup = async (req, res) => {
 
         res.status(201).json(group);
     } catch (error) {
-        res.sendStatus(500);
+        next(error);
     }
 };
 
-export const updateGroupById = async (req, res) => {
+export const updateGroupById = async (req, res, next) => {
     const groupInfo = req.body;
     const id = getGroupIdFromRequest(req);
 
@@ -61,14 +62,14 @@ export const updateGroupById = async (req, res) => {
         if (isUpdated) {
             res.sendStatus(204);
         } else {
-            throw new Error();
+            throw new NotFoundError('could not update group by specified id');
         }
     } catch (error) {
-        res.sendStatus(404);
+        next(error);
     }
 };
 
-export const deleteGroupById = async (req, res) => {
+export const deleteGroupById = async (req, res, next) => {
     const id = getGroupIdFromRequest(req);
 
     try {
@@ -77,14 +78,14 @@ export const deleteGroupById = async (req, res) => {
         if (isDeleted) {
             res.sendStatus(200);
         } else {
-            throw new Error();
+            throw new NotFoundError('could not delete group by specified id');
         }
     } catch (error) {
-        res.sendStatus(404);
+        next(error);
     }
 };
 
-export const addUsersToGroup = async (req, res) => {
+export const addUsersToGroup = async (req, res, next) => {
     const {
         body: { groupId, userIds }
     } = req;
@@ -98,9 +99,9 @@ export const addUsersToGroup = async (req, res) => {
         if (result) {
             res.sendStatus(200);
         } else {
-            throw new Error();
+            throw new NotFoundError('could not add users to specified groups');
         }
     } catch (error) {
-        res.sendStatus(404);
+        next(error);
     }
 };
