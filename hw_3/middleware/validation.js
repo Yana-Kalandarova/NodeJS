@@ -10,7 +10,7 @@ export const validateUserInfo = (req, res, next) => {
         throw new ValidationError(errorResponse(error.details));
     }
 
-    next(error);
+    next();
 };
 
 export const validateGroupInfo = (req, res, next) => {
@@ -21,5 +21,5 @@ export const validateGroupInfo = (req, res, next) => {
         throw new ValidationError(errorResponse(error.details));
     }
 
-    next(error);
+    next();
 };

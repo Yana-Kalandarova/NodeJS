@@ -23,7 +23,7 @@ export const errorHandler = (error, req, res, next) => {
     logger.error(
         `${title}:
         ${req.method} ${req.url} with params ${JSON.stringify(req.body)}.
-        Error: ${JSON.stringify(error)}`
+        Error: ${message}`
     );
 
     res.status(status).send({ title, message });
