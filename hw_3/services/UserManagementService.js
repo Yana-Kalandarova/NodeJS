@@ -5,6 +5,8 @@ export class UserManagementService {
 
     getUserById = (id) => this.daoModel.findUserById(id);
 
+    getUserByName = (login) => this.daoModel.findUserByName(login);
+
     createUser = (userInfo) => this.daoModel.createUser(userInfo);
 
     updateUserById = (id, userInfo) =>

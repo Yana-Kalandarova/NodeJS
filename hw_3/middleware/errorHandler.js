@@ -1,4 +1,8 @@
-import { ValidationError, NotFoundError } from '../exceptions';
+import {
+    ValidationError,
+    NotFoundError,
+    InvalidTokenError
+} from '../exceptions';
 import { logger } from '../utils';
 
 export const errorHandler = (error, req, res, next) => {
@@ -14,6 +18,10 @@ export const errorHandler = (error, req, res, next) => {
         case NotFoundError:
             status = 404;
             title = 'Not Found';
+            break;
+        case InvalidTokenError:
+            status = 403;
+            title = 'Forbidden';
             break;
         default:
             status = 500;

@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { usersRouter, groupsRouter } from './routes';
+import { usersRouter, groupsRouter, authRouter } from './routes';
 import { requestLogger, errorHandler } from './middleware';
 import { logger } from './utils';
 import { CORS_OPTIONS } from './constants';
@@ -12,6 +12,7 @@ app.use(cors(CORS_OPTIONS));
 app.use(express.json());
 app.use(requestLogger);
 
+app.use('/login', authRouter);
 app.use('/users', usersRouter);
 app.use('/groups', groupsRouter);
 
