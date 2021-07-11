@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { USER_AGE_MIN, USER_AGE_MAX } from '../constants/validation';
+import { USER_AGE_MIN, USER_AGE_MAX } from '../constants';
 
 const passwordRegEx = /^[a-zA-Z0-9]{8,}$/;
 

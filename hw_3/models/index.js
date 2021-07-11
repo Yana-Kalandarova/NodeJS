@@ -1,5 +1,5 @@
 import { sequelize } from '../data-access';
-import { logger } from '../utils/logger';
+import { logger } from '../utils';
 import { UserModel } from './userModel';
 import { GroupModel } from './groupModel';
 

@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize';
-import { logger } from '../utils/logger';
+import { logger } from '../utils';
 
 const connectionString = process.env.CONNECTION_STRING;
 

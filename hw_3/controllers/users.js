@@ -1,6 +1,6 @@
 import { UserModel } from '../models';
 import { UserManagementService } from '../services';
-import { getIdFromRequest as getUserIdFromRequest } from '../utils/common';
+import { getIdFromRequest as getUserIdFromRequest } from '../utils';
 import { UserDAO } from '../data-access';
 import { NotFoundError } from '../exceptions';
 

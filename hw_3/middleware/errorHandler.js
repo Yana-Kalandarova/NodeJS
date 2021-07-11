@@ -1,5 +1,5 @@
 import { ValidationError, NotFoundError } from '../exceptions';
-import { logger } from '../utils/logger';
+import { logger } from '../utils';
 
 export const errorHandler = (error, req, res, next) => {
     let status;

@@ -1,5 +1,5 @@
 import { errorResponse, userSchema, groupSchema } from '../validation';
-import { VALIDATION_OPTIONS } from '../constants/validation';
+import { VALIDATION_OPTIONS } from '../constants';
 import { ValidationError } from '../exceptions';
 
 export const validateUserInfo = (req, res, next) => {

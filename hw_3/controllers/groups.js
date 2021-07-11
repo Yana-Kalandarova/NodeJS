@@ -1,6 +1,6 @@
 import { GroupModel } from '../models';
 import { GroupManagementService } from '../services';
-import { getIdFromRequest as getGroupIdFromRequest } from '../utils/common';
+import { getIdFromRequest as getGroupIdFromRequest } from '../utils';
 import { GroupDAO } from '../data-access';
 import { NotFoundError } from '../exceptions';
 

@@ -1,5 +1,5 @@
 import express from 'express';
-import * as groupsControllers from '../controllers/groups';
+import { groupsControllers } from '../controllers';
 import { validateGroupInfo } from '../middleware';
 
 const groupsRouter = express.Router();
