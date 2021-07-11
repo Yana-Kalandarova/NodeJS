@@ -1,8 +1,10 @@
 import express from 'express';
 import { usersControllers } from '../controllers';
-import { validateUserInfo } from '../middleware';
+import { authRequired, validateUserInfo } from '../middleware';
 
 const usersRouter = express.Router();
+
+usersRouter.use(authRequired);
 
 usersRouter.route('/')
     .get(usersControllers.getUsers)

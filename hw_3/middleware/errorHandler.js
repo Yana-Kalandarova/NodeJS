@@ -1,7 +1,8 @@
 import {
     ValidationError,
     NotFoundError,
-    InvalidTokenError
+    InvalidTokenError,
+    UnauthorizedError
 } from '../exceptions';
 import { logger } from '../utils';
 
@@ -22,6 +23,10 @@ export const errorHandler = (error, req, res, next) => {
         case InvalidTokenError:
             status = 403;
             title = 'Forbidden';
+            break;
+        case UnauthorizedError:
+            status = 401;
+            title = 'Unauthorized';
             break;
         default:
             status = 500;

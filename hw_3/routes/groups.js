@@ -1,8 +1,10 @@
 import express from 'express';
 import { groupsControllers } from '../controllers';
-import { validateGroupInfo } from '../middleware';
+import { authRequired, validateGroupInfo } from '../middleware';
 
 const groupsRouter = express.Router();
+
+groupsRouter.use(authRequired);
 
 groupsRouter.route('/')
     .get(groupsControllers.getGroups)
