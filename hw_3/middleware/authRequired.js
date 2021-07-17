@@ -1,17 +1,17 @@
 import jwt from 'jsonwebtoken';
 import { InvalidTokenError, UnauthorizedError } from '../exceptions';
+import { config } from '../config';
 
 export const authRequired = (req, res, next) => {
     const token = req.headers['x-access-token'];
 
     if (token) {
-        jwt.verify(token, process.env.JWT_SECRET_KEY, (error) => {
-            if (error) {
-                throw new InvalidTokenError('invalid token');
-            } else {
-                next();
-            }
-        });
+        try {
+            jwt.verify(token, config.authJwtSecretKey);
+            next();
+        } catch (error) {
+            throw new InvalidTokenError('invalid token');
+        }
     } else {
         throw new UnauthorizedError('authorization is required');
     }

@@ -1,3 +1,5 @@
+// TODO: hash user password before save to db
+// https://www.npmjs.com/package/bcrypt
 export class UserManagementService {
     constructor(daoModel) {
         this.daoModel = daoModel;
