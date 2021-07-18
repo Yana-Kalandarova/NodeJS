@@ -12,6 +12,13 @@ export class UserDAO {
             }
         });
 
+    findUserByName = (login) =>
+        this.model.findOne({
+            where: {
+                login
+            }
+        });
+
     createUser = (userInfo) => this.model.create({ ...userInfo });
 
     updateUserById = (id, userInfo) =>

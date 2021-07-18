@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize } from 'sequelize';
 import { sequelize } from '../data-access';
-import { GROUP_PERMISSION_LIST } from '../constants/validation';
+import { GROUP_PERMISSION_LIST } from '../constants';
 import { UserModel } from './userModel';
 
 export const GroupModel = sequelize.define(

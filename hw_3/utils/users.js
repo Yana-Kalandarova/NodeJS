@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
 import faker from 'faker';
-import { USER_AGE_MAX, USER_AGE_MIN } from '../constants/validation';
+import { USER_AGE_MAX, USER_AGE_MIN } from '../constants';
 
 export const generateUsers = (count) =>
     Array.from(Array(count)).map(() => ({

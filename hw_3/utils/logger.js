@@ -1,4 +1,6 @@
 import winston from 'winston';
+import { config } from '../config';
+import { ENV } from '../constants';
 
 export const logger = winston.createLogger({
     format: winston.format.combine(
@@ -16,7 +18,7 @@ export const logger = winston.createLogger({
     ]
 });
 
-if (process.env.NODE_ENV !== 'production') {
+if (config.env !== ENV.prod) {
     logger.add(
         new winston.transports.Console({
             level: 'info',

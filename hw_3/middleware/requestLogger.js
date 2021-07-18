@@ -1,4 +1,4 @@
-import { logger } from '../utils/logger';
+import { logger } from '../utils';
 
 export const requestLogger = (req, res, next) => {
     logger.info(`request method: ${req.method}`);
