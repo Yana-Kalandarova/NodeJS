@@ -18,7 +18,7 @@ describe('Test usersControllers methods:', () => {
 
         req = mockRequest();
         res = mockResponse();
-        next = mockNext;
+        next = mockNext();
     });
 
     describe('getUserById:', () => {

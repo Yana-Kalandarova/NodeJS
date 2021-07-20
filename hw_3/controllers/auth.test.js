@@ -17,7 +17,7 @@ describe('Test authControllers methods:', () => {
 
         req = mockRequest();
         res = mockResponse();
-        next = mockNext;
+        next = mockNext();
     });
 
     describe('authenticateUser:', () => {

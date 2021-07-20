@@ -18,7 +18,7 @@ describe('Test groupsControllers methods:', () => {
 
         req = mockRequest();
         res = mockResponse();
-        next = mockNext;
+        next = mockNext();
     });
 
     describe('getGroupById:', () => {
