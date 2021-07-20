@@ -6,7 +6,7 @@
   "scripts": {
     "run": "nodemon -r dotenv/config --exec babel-node ./app.js",
     "initTable": "babel-node -r dotenv/config data-access/createInitialTable.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -19,14 +19,16 @@
   },
   "homepage": "https://github.com/Yana-Kalandarova/NodeJS#readme",
   "devDependencies": {
-    "@babel/core": "^7.14.3",
+    "@babel/core": "^7.14.6",
     "@babel/eslint-parser": "^7.14.4",
     "@babel/node": "^7.14.2",
-    "@babel/preset-env": "^7.14.4",
+    "@babel/preset-env": "^7.14.7",
+    "babel-jest": "^27.0.6",
     "eslint": "^7.27.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-prettier": "^3.4.0",
+    "jest": "^27.0.6",
     "nodemon": "^2.0.7",
     "prettier": "^2.3.0"
   },

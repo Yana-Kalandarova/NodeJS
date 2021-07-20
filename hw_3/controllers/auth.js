@@ -4,7 +4,7 @@ import { UserDAO } from '../data-access';
 import { InvalidTokenError, ValidationError } from '../exceptions';
 
 const userDAO = new UserDAO(UserModel);
-const authManagementService = new AuthManagementService();
+const authManagementService = new AuthManagementService(userDAO);
 
 export const authenticateUser = async (req, res, next) => {
     const { login, password } = req.body;
@@ -14,16 +14,13 @@ export const authenticateUser = async (req, res, next) => {
             throw new ValidationError('login and password are required');
         }
 
-        const token = await authManagementService.authenticate(
-            {
-                login,
-                password
-            },
-            userDAO
-        );
+        const token = await authManagementService.authenticate({
+            login,
+            password
+        });
 
         if (token) {
-            res.status(200).json({ token });
+            res.status(200).json(token);
         } else {
             throw new InvalidTokenError('fail to authenticate user');
         }
